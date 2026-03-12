@@ -1,0 +1,28 @@
+from collections import defaultdict
+class Solution:
+    def minWindow(self, s: str, t: str) -> str:
+        t_freq = Counter(t)
+        res = ""
+        s_freq = defaultdict(int)
+        min_len = float("inf")
+
+        left = 0
+
+        for right, char in enumerate(s):
+            s_freq[char] += 1
+            valid = True
+            for k, v in t_freq.items():
+                if s_freq[k] < v:
+                    valid = False
+
+            while left <= right and valid:
+                if right - left + 1 < min_len:
+                    min_len = right - left + 1
+                    res = s[left:right+1]
+
+                s_freq[s[left]] -= 1
+                if s[left] in t_freq and s_freq[s[left]] < t_freq[s[left]]:
+                    valid = False
+                left += 1
+
+        return res
