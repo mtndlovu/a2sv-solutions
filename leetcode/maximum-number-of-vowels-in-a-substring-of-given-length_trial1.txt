@@ -1,0 +1,17 @@
+class Solution:
+    def maxVowels(self, s: str, k: int) -> int:
+        vowels = set("aeiou")
+        curr_vowels = sum([1 for char in s[:k] if char in vowels])
+        max_vowels = curr_vowels
+
+        for i in range(k, len(s)):
+            sub = 1 if s[i-k] in vowels else 0
+            add = 1 if s[i] in vowels else 0
+            curr_vowels += add - sub
+
+            max_vowels = max(curr_vowels, max_vowels)
+
+            if max_vowels == k:
+                return k
+        
+        return max_vowels
