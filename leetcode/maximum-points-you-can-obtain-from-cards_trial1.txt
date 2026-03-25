@@ -1,0 +1,13 @@
+class Solution:
+    def maxScore(self, cardPoints: List[int], k: int) -> int:
+        # removing k cards from either side leaves n - k cards in the middle
+        n = len(cardPoints)
+        w = n - k
+        total_sum = sum(cardPoints)
+        curr_sum = min_sum = sum(cardPoints[0:w])
+
+        for i in range(w, n):
+            curr_sum += cardPoints[i] - cardPoints[i - w]
+            min_sum = min(curr_sum, min_sum)
+        
+        return total_sum - min_sum
