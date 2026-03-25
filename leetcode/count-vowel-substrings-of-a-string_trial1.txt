@@ -1,0 +1,28 @@
+class Solution:
+    def countVowelSubstrings(self, word: str) -> int:
+        def atMost(s, k):
+            vowels = set("aeiou")
+            counts = {}
+            left = 0
+            ans = 0
+            
+            for right in range(len(s)):
+                if s[right] not in vowels:
+                    counts.clear()
+                    left = right + 1
+                    continue
+                
+                counts[s[right]] = counts.get(s[right], 0) + 1
+                
+
+                while len(counts) > k:
+                    counts[s[left]] -= 1
+                    if counts[s[left]] == 0:
+                        del counts[s[left]]
+                    left += 1
+                
+
+                ans += right - left + 1
+            return ans
+
+        return atMost(word, 5) - atMost(word, 4)
