@@ -1,0 +1,19 @@
+class Solution:
+    def numberOfSubarrays(self, nums: List[int], k: int) -> int:
+        def atMost(goal):
+            if goal < 0: return 0
+            res = 0
+            left = 0
+            odds = 0
+            
+            for right in range(len(nums)):
+                odds += nums[right] % 2
+                
+                while odds > goal:
+                    odds -= nums[left] % 2
+                    left += 1
+                
+                res += right - left + 1
+            return res
+
+        return atMost(k) - atMost(k - 1)
