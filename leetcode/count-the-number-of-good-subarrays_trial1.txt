@@ -1,0 +1,22 @@
+from collections import Counter
+
+class Solution:
+    def countGood(self, nums: List[int], k: int) -> int:
+        res = 0
+        pairs = 0
+        count = Counter()
+        left = 0
+        n = len(nums)
+        
+        for right in range(n):
+            pairs += count[nums[right]]
+            count[nums[right]] += 1
+            
+            while pairs >= k:
+                res += (n - right)
+                
+                count[nums[left]] -= 1
+                pairs -= count[nums[left]]
+                left += 1
+
+        return res
