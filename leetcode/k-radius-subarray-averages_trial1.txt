@@ -1,0 +1,19 @@
+class Solution:
+    def getAverages(self, nums: List[int], k: int) -> List[int]:
+        n = len(nums)
+        res = [-1] * n
+        window_size = 2 * k + 1
+        
+        if window_size > n:
+            return res
+
+        pref = [0] * (n + 1)
+        for i in range(n):
+            pref[i + 1] = pref[i] + nums[i]
+
+        for i in range(k, n - k):
+            left, right = i - k, i + k
+            total_sum = pref[right + 1] - pref[left]
+            res[i] = total_sum // window_size
+            
+        return res
