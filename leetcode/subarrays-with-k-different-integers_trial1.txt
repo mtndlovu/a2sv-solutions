@@ -1,0 +1,24 @@
+class Solution:
+    def subarraysWithKDistinct(self, nums: List[int], k: int) -> int:
+        def atMost(n):
+            seen = {}
+            left = good = unique = 0
+
+            for right, num in enumerate(nums):
+                if num in seen:
+                    seen[num] += 1
+                else:
+                    unique += 1
+                    seen[num] = 1
+
+                while unique > n:
+                    seen[nums[left]] -= 1
+                    if seen[nums[left]] == 0:
+                        del seen[nums[left]]
+                        unique -= 1
+                    left += 1
+
+                good += (right - left + 1)
+        
+            return good
+        return atMost(k) - atMost(k - 1)
